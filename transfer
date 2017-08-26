@@ -1,0 +1,62 @@
+#!/usr/bin/env node
+
+var shell = require('shelljs')
+var fs = require('fs')
+var path = require('path')
+var colors = require('colors')
+var argv = require('yargs').argv
+var input_dir = argv.i || './input'
+var output_dir = argv.o || './output'
+var fileList = []
+
+/**
+ * read input directory and list all of files
+ */
+function walk(path) {
+    var dirList = fs.readdirSync(path)
+    dirList.forEach(function(item) {
+        if (fs.statSync(path + '/' + item).isDirectory()) {
+            walk(path + '/' + item)
+        } else {
+            fileList.push(path + '/' + item)
+        }
+    })
+}
+walk(input_dir)
+console.log('start transfering......'.red)
+
+/**
+ * make new output directories and files
+ */
+fileList.forEach(function(item) {
+    if (item.endsWith('.md')) {
+        let md_item = item
+        item = item.replace(input_dir, output_dir)
+        let html_item = item.replace('md', 'html')
+        let items = item.split('/')
+        item = ''
+        for (let i = 0; i < items.length - 1; i++) {
+            item += items[i] + '/'
+        }
+        item = item.substring(0, item.length - 1)
+        mkdirsSync(item)
+        console.log(`transfer: ${md_item} => ${html_item}`.green)
+        shell.exec(`pandoc -o ${html_item} ${md_item}`)
+    }
+})
+
+/**
+ * if output directory don't exist it will make a new directory
+ */
+function mkdirsSync(dirname) {
+    if (fs.existsSync(dirname)) {
+        return true
+    } else {
+        if (mkdirsSync(path.dirname(dirname))) {
+            fs.mkdirSync(dirname)
+            return true
+        }
+    }
+}
+
+console.log('finish!')

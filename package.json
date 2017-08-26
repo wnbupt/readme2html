@@ -1,0 +1,23 @@
+{
+  "name": "myapp",
+  "version": "1.0.0",
+  "description": "a tool to convert multi readmes to html pages ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "transfer": "./transfer"
+  },
+  "dependencies": {
+    "color": "^2.0.0",
+    "colors": "^1.1.2",
+    "shelljs": "^0.7.8",
+    "yargs": "^8.0.2"
+  },
+  "keywords": [
+    "readme2html"
+  ],
+  "author": "wangning",
+  "license": "ISC"
+}
