@@ -24,11 +24,15 @@ $ npm install && npm link
 ```
 
 ## start transfering
-make sure that your input directory is existed
 
 default input directory value is './input'
 
 default output directory value is './output'
+```
+$ tranfer
+```
+make sure that your input directory is existed
+
 ```
 $ transfer --i 'input path' --o 'output path'
 ```
